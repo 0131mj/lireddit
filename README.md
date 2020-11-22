@@ -45,3 +45,14 @@ https://www.youtube.com/watch?v=I6ypD7qv3Z8
 - script 의 start에 "ts-node src/index.ts" 를 추가해준다.
 
 6:00 보는 중
+
+
+
+명령어를 입력 후, node 를 고른다.
+
+이렇게 하면 tsconfig.json 파일이 생성된다. 
+
+```shell
+npx tsconfing.json
+```
+
