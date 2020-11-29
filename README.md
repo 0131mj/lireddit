@@ -31,44 +31,104 @@ https://www.youtube.com/watch?v=I6ypD7qv3Z8
 
 
 
-#### 프로젝트 생성 및 라이브러리 추가
+### 프로젝트 생성
 
-- npm init -y : 모든 초기조건을 자동세팅한 프로젝트 생성
-- yarn add -D @types/node typescript :  <u>타입스크립트 노드</u> 와 <u>타입스크립트</u>를 추가한다.  (-D 키워드는 devDependency 에 모듈을 추가한다. )
+```shell
+npm init -y
+```
+
+모든 초기조건을 자동세팅한 프로젝트 생성
+
+
+
+### 라이브러리 추가
+
+##### @types/node, typescript
+
+```shell
+yarn add -D @types/node typescript
+```
+
+-  <u>타입스크립트 노드</u> 와 <u>타입스크립트</u>를 추가한다.  (-D 키워드는 devDependency 에 모듈을 추가한다. )
   - @types/node 는 node.js에 타입을 추가해주는 패키지다.
-- yarn add -D ts-node 
 
-- tsconfing.json : ben awad 가 설정한 tsconfig 파일을 생성해주는 패키지이다. 
+##### ts-node
+
+```shell
+yarn add -D ts-node
+```
+
+##### tsconfing.json
 
 ```shell
 npx tsconfing.json
 ```
 
-이렇게 하면 tsconfig.json 파일이 생성된다. (생성 후 수정할 수 있다.)
+- tsconfing.json :  미리 설정된 tsconfig 파일을 생성해주는 패키지로, 강의를 하는 ben awad 가 만든 파일이다.
+- 위의 명령어를 실행하면 Pick the framework you're using 이라는 선택문구가 나오는데, 여기서 node 를 선택한다.
+- 이렇게 하면 tsconfig.json 파일이 생성된다. (생성 후 수정할 수 있다.)
 
 
 
-#### package.json
+### package.json
 
-- script 의 start에 "ts-node src/index.ts" 를 추가해준다.
+타입스크립트를 실행하는 방식을 알아보고 적용해보자. 
+
+
+
+##### ts-node
+
+타입스크립트 파일은 바로 실행될 수가 없는데, ts-node는 메모리상에서 ts 파일을 읽어서 바로 실행해준다.
+
+- script 의 start에 "ts-node src/index.ts" 를 추가하자. 
 
 ```javascript
 "start": "ts-node src/index.ts"
 ```
 
-이 상태에서 yarn start 를 수행하면, 해당코드를 어떤 변환없이 바로 수행해버린다.
+- 이제 터미널에서 yarn start 를 입력하면, index.ts가 자바스크립트 파일로 변환되는 과정없이, 바로 해당 명령을 실행한다.
+- 즉, index.ts에서 console.log("hello")라고 입력해뒀다면 그 명령어를 그대로 수행한다.
 
-index.ts에서 console.log("hello")라고 했다면 그 명령어를 그대로 수행한다.
+하지만, 속도가 느려서 튜토리얼에 사용할 건 아니다...
+
+그럼? 그냥 보여줄려고 쓴거다. 실제로는 아래와 같이 컴파일과 실행을 2track 으로 진행한다.
 
 
 
-- script 의 watch를 아래와 같이 기술하고
+##### tsc -w
 
 ```javascript
 "watch" : "tsc -w"
 ```
 
-watch 를 수행하면 tsconfig.json 의 outDir에 설정해놓은 것과 같이 dist폴더에 저장된다. 
+- script 의 watch를 위와 같이 기술하고, 터미널에서 watch 를 수행하면 tsconfig.json 파일에서outDir에 설정해놓은대로,  dist폴더에 저장된다. 
+- 그다음, 기존의 start는 start2로 바꾸고 새롭게 start를 추가한다. 
 
-그리고 핫리로드도 지원하므로, 
+```javascript
+ "start": "node dist/index.js",
+ "start2": "ts-node src/index.ts"
+```
 
+- 그리고 새로운 터미널에서 start를 실행한다.
+
+정리하면 이렇다. 
+
+- 터미널1 : watch로 타입스크립트 파일 변경 왓치
+
+- 터미널2 : dist/index.js 파일 실행
+
+이렇게 2track으로 구성해두면, 파일이 변경될 때마다 컴파일을 미리 해두고, 실행만 하니까 더 빠르다. 
+
+- ts-node : 1.68s
+- node dist/index.js : 
+
+
+
+##### nodemon
+
+- nodemon 은 tsc -w 와 node dist/index.js 이 두개의 명령을 연결해주는 것이라고 볼 수 있다.
+- 해당 파일의 변경을 감지하고 있다가 변화가 일어나면 파일을 다시 실행한다.
+
+
+
+10:00 보는 중
