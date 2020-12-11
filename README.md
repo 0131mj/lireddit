@@ -126,9 +126,46 @@ npx tsconfing.json
 
 ##### nodemon
 
+```shell
+yarn add nodemon -D
+```
+
+```javascript
+"dev": "nodemon dist/index.js",
+"dev2": "nodemon --exec ts-node src/index.ts",
+```
+
 - nodemon 은 tsc -w 와 node dist/index.js 이 두개의 명령을 연결해주는 것이라고 볼 수 있다.
 - 해당 파일의 변경을 감지하고 있다가 변화가 일어나면 파일을 다시 실행한다.
+- --exec 은 해당 앱을 실행해주는 명령이다. 즉, src/index.ts에 변화가 생겼을 때, ts-node 를 exec 한다.
 
 
 
-10:00 보는 중
+#### 결론
+
+구성은 이렇게 된다. 
+
+##### 터미널 1. 타입스크립트 재 컴파일
+
+```shell
+tsc -w 
+```
+
+- ts 파일을 js로 컴파일하는데, -w 옵션을 줘서 파일의 변화가 생길 때마다 리컴파일 하게 만든다. 
+  (해당 옵션은 tsconfig.json의 설정을 따른다. )
+
+
+
+##### 터미널 2. 변경된 코드 재 실행
+
+```shell
+nodemon dist/index.js
+```
+
+- 변경된 코드를 감지하고, 다시 실행한다. 
+
+
+
+## 2. MicroORM Setup
+
+0: 11: 29 볼 차례
