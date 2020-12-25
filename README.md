@@ -168,4 +168,14 @@ nodemon dist/index.js
 
 ## 2. MicroORM Setup
 
-0: 11: 29 볼 차례
+#### 패키지 설치
+
+- 터미널을 하나 열고 아래와 같이 패키지를 설치한다.
+
+```shell
+yarn add @mikro-orm/cli @mikro-orm/core @mikro-orm/migrations @mikro-orm/postgresql pg
+```
+
+
+
+22: 13 보는 중
