@@ -41,9 +41,9 @@ npm init -y
 
 
 
-### 라이브러리 추가
+### 타입스크립트 라이브러리 추가
 
-##### @types/node, typescript
+#### @types/node, typescript
 
 ```shell
 yarn add -D @types/node typescript
@@ -52,13 +52,13 @@ yarn add -D @types/node typescript
 -  <u>타입스크립트 노드</u> 와 <u>타입스크립트</u>를 추가한다.  (-D 키워드는 devDependency 에 모듈을 추가한다. )
   - @types/node 는 node.js에 타입을 추가해주는 패키지다.
 
-##### ts-node
+#### ts-node
 
 ```shell
 yarn add -D ts-node
 ```
 
-##### tsconfing.json
+#### tsconfing.json
 
 ```shell
 npx tsconfing.json
@@ -76,7 +76,7 @@ npx tsconfing.json
 
 
 
-##### ts-node
+#### ts-node
 
 타입스크립트 파일은 바로 실행될 수가 없는데, ts-node는 메모리상에서 ts 파일을 읽어서 바로 실행해준다.
 
@@ -95,7 +95,7 @@ npx tsconfing.json
 
 
 
-##### tsc -w
+#### tsc -w
 
 ```javascript
 "watch" : "tsc -w"
@@ -111,33 +111,61 @@ npx tsconfing.json
 
 - 그리고 새로운 터미널에서 start를 실행한다.
 
+
+
+##### 정리
+
 정리하면 이렇다. 
 
 - 터미널1 : watch로 타입스크립트 파일 변경 왓치
 
 - 터미널2 : dist/index.js 파일 실행
 
-이렇게 2track으로 구성해두면, 파일이 변경될 때마다 컴파일을 미리 해두고, 실행만 하니까 더 빠르다. 
+이렇게 2track으로 구성해두면, 파일이 변경될 때마다 컴파일을 미리 해두고, 실행만 하니까 더 빠르다.  (실행 속도는 아래와 같다.)
 
 - ts-node : 1.68s
-- node dist/index.js : 
+- node dist/index.js : 0.15s
 
 
 
-##### nodemon
+##### 보완
+
+- 실행환경이라면, 위의 start 스크립트만으로 충분할 것이다. 
+- 하지만 개발환경에서는 파일을 계속해서 바꾸면서 작업을 하기 때문에, 파일이 바뀔때마다 node를 실행해주는 도구가 있으면 편리하다. 
+
+- 따라서, 우리는 앞서 만든 start 스크립트 대신 dev 라는 스크립트를 만들어서 실행할 것이다. 
+
+- 우선 node 명령어를 보완해 줄 nodemon을 설치해서 사용하자. 
+
+- 차이점을 간단히 설명하자면 아래와 같다. 
+
+  - node : 파일을 한번 실행한다. (일회성)
+  - nodemon : 파일에 변화가 일어날 때마다 실행한다. 
+
+  
+
+#### nodemon
+
+##### 설치하기
 
 ```shell
 yarn add nodemon -D
 ```
+
+
+
+##### package.json 세팅
 
 ```javascript
 "dev": "nodemon dist/index.js",
 "dev2": "nodemon --exec ts-node src/index.ts",
 ```
 
-- nodemon 은 tsc -w 와 node dist/index.js 이 두개의 명령을 연결해주는 것이라고 볼 수 있다.
-- 해당 파일의 변경을 감지하고 있다가 변화가 일어나면 파일을 다시 실행한다.
-- --exec 은 해당 앱을 실행해주는 명령이다. 즉, src/index.ts에 변화가 생겼을 때, ts-node 를 exec 한다.
+- dev 스크립트에 있는 nodemon 은 node 를 wtach 방식으로 실행해준다. 
+  - 즉, 해당 파일의 변경을 감지하고 있다가 변화가 일어나면 파일을 다시 실행한다.
+- dev2는 옵셔널한 세팅이다. 
+  - --exec 은 해당 앱을 실행해주는 명령이다. 
+  - 즉, src/index.ts에 변화가 생겼을 때, ts-node 를 exec 한다.
 
 
 
@@ -145,10 +173,10 @@ yarn add nodemon -D
 
 구성은 이렇게 된다. 
 
-##### 터미널 1. 타입스크립트 재 컴파일
+##### 터미널 1. 타입스크립트 재 컴파일 (yarn watch)
 
 ```shell
-tsc -w 
+"watch" : "tsc -w"
 ```
 
 - ts 파일을 js로 컴파일하는데, -w 옵션을 줘서 파일의 변화가 생길 때마다 리컴파일 하게 만든다. 
@@ -156,10 +184,10 @@ tsc -w
 
 
 
-##### 터미널 2. 변경된 코드 재 실행
+##### 터미널 2. 변경된 코드 재 실행 (yarn dev)
 
 ```shell
-nodemon dist/index.js
+"dev" : "nodemon dist/index.js"
 ```
 
 - 변경된 코드를 감지하고, 다시 실행한다. 
@@ -178,4 +206,4 @@ yarn add @mikro-orm/cli @mikro-orm/core @mikro-orm/migrations @mikro-orm/postgre
 
 
 
-22: 13 보는 중
+32분 보는 중
